@@ -3,8 +3,6 @@ package registryctl
 import (
 	"context"
 	"fmt"
-	"path"
-	"strings"
 
 	goharborv1 "github.com/goharbor/harbor-operator/apis/goharbor.io/v1beta1"
 	harbormetav1 "github.com/goharbor/harbor-operator/apis/meta/v1alpha1"
@@ -249,11 +247,6 @@ func (r *Reconciler) applyTLSVolumeMountConfig(ctx context.Context, container *c
 		logger.Get(ctx).Info("tls volume mount not found, adding new one")
 
 		container.VolumeMounts = append(container.VolumeMounts, corev1.VolumeMount{
-			Name:      InternalCertificatesVolumeName,
-			MountPath: path.Join(InternalCertificateAuthorityDirectory, corev1.ServiceAccountRootCAKey),
-			SubPath:   strings.TrimLeft(corev1.ServiceAccountRootCAKey, "/"),
-			ReadOnly:  true,
-		}, corev1.VolumeMount{
 			Name:      InternalCertificatesVolumeName,
 			MountPath: InternalCertificatesPath,
 			ReadOnly:  true,
